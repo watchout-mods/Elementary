@@ -1,0 +1,17 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+..\FrameXML\UI.xsd">
+
+<!--
+<Script  file="Light-addons\Light-addons-1.lua" />
+<Script  file="Light-events\Light-events-1.lua" />
+ -->
+
+<Script  file="LibRotate-1\LibRotate-1.lua" />
+<Script  file="LibColor-1\LibColor-1.lua" />
+<Script  file="ArcBar\ArcBar.lua" />
+
+<Script  file="LibOnUpdate-1\LibOnUpdate-1.lua" />
+
+<!--@debug@
+@end-debug@-->
+</Ui>

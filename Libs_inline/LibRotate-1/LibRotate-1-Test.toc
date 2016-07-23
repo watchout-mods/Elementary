@@ -1,0 +1,16 @@
+## Interface: 70000
+## Title: LibRotate Test
+## Version: 1
+## Notes: Addon for testing LibRotate-1.1. This is an actual Addon because the effects can only be tested ingame
+## LoadManagers: AddonLoader
+## X-LoadOn-Always: delayed
+
+# This .toc is of course only effective if the library is installed as an Addon
+# *AND* the containing folder is named "LibRotate-1-Test"
+# This .toc will also only test the matching version of LibRotate
+
+# Library
+LibRotate-1.lua
+
+# Testing Addon
+Test-1\LibRotate-1-Test.lua

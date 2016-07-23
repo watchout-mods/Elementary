@@ -1,0 +1,6 @@
+## Interface: 70000
+## Title: LibRotate-1
+## Version: 2
+## Notes: Library for Texture rotation
+
+LibRotate-1.lua

@@ -1,0 +1,4 @@
+-
+    type: luadoc
+    input-file: LibColor-1.0.lua
+    output-page: "API"
