@@ -1,0 +1,15 @@
+## Interface: 70000
+## Title: LibColor-1
+## Version: @project-version@
+## Notes: Library to simplify color operations and handling.
+## Author: watchout @ Curseforge.com
+## SavedVariables: 
+## Dependencies:
+## X-Type: Library
+## X-DependsOn: LibStub
+
+LibColor-1.0.lua
+
+#@alpha@
+test\Test.lua
+#@end-alpha@

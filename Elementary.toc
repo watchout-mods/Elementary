@@ -1,0 +1,19 @@
+## Interface: 70000
+## Title: Elementary
+## Version: 1
+## Notes: Elementary Overlay UI |cFFAAAAAAby watchout@curse.com|r
+## SavedVariables: ElementaryOptions
+## OptionalDeps: Ace3
+## LoadManagers: AddonLoader, LoadIT
+## X-LoadOn-Always: delayed
+
+# Libraries
+Libs\embed.xml
+Libs_inline\embed.xml
+
+# Main
+Elementary.lua
+Options.lua
+
+# Modules
+Modules\Player.lua
