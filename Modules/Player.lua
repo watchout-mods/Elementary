@@ -37,15 +37,19 @@ function Module:OnEnable()
 	--Addon:RegisterUpdater("UpdateBar1Border", self);
 end
 
+local HealthEvents = {
+	UNIT_HEALTH_FREQUENT = true,
+	PLAYER_ENTERED_WORLD = true,
+};
 local PowerEvents = {
 	UNIT_DISPLAYPOWER = true,
 	PLAYER_ENTERED_WORLD = true,
-}
+};
 local CastEvents = {
 	UNIT_SPELLCAST_START = true,
 	UNIT_SPELLCAST_DELAYED = true,
 	PLAYER_TARGET_CHANGED = true,
-}
+};
 local ChannelEvents = {
 	--CURRENT_SPELL_CAST_CHANGED = true,
 	-- channeling, all events below have following args:
@@ -53,14 +57,14 @@ local ChannelEvents = {
 	UNIT_SPELLCAST_CHANNEL_START = true,
 	UNIT_SPELLCAST_CHANNEL_UPDATE = true,
 	PLAYER_TARGET_CHANGED = true,
-}
+};
 local StopEvents = {
 	UNIT_SPELLCAST_STOP = true,
 	UNIT_SPELLCAST_FAILED = true,
 	UNIT_SPELLCAST_CHANNEL_STOP = true,
 	PLAYER_TARGET_CHANGED = true,
 	--UNIT_SPELLCAST_INTERRUPTED = true,
-}
+};
 
 
 function Module:CreateRightBar(w, h, ox, oy, r, t, scale)
@@ -187,6 +191,9 @@ end
 function Module:CreateLeftBar(w, h, ox, oy, r, t, scale)
 	local f, bar, tx = nil, nil, {};
 	
+	local Color_Interruptible = self:CreateColorBlender("WHITE", "RED");
+	local Color_Noninterruptible = self:CreateColorBlender("GREY80", "GREY80");
+
 	f = tpath.."MainBar";
 	tx.BAR = ArcBar:CreateTexture(f, "ARTWORK", w, h, ox, oy, r, t, 56, -28, true);
 
@@ -268,6 +275,11 @@ function Module:CreateLeftBar(w, h, ox, oy, r, t, scale)
 					bar:AnimateBorder(casttime, curtime, CastTimeUpdate);
 					casttext:SetText(name);
 					casttimemaxtext:SetText(casttime);
+					if interruptible then
+						bar:SetBorderColor(Color_Interruptible);
+					else
+						bar:SetBorderColor(Color_Noninterruptible);
+					end
 				end
 			end
 			if ChannelEvents[event] then
@@ -281,6 +293,11 @@ function Module:CreateLeftBar(w, h, ox, oy, r, t, scale)
 					bar:AnimateBorderInverse(casttime, curtime, CastTimeUpdate);
 					casttext:SetText(name);
 					casttimemaxtext:SetText(casttime);
+					if interruptible then
+						bar:SetBorderColor(Color_Interruptible);
+					else
+						bar:SetBorderColor(Color_Noninterruptible);
+					end
 				end
 			end
 			if StopEvents[event] then
