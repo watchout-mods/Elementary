@@ -25,8 +25,7 @@ function Addon:OnInitialize()
 end
 
 function Addon:OnEnable()
-	-- create the container frame
-	do
+	do -- create the container frame
 		local cf = CreateFrame("frame", "Elementary-Container-Frame", UIParent);
 		self.Container = cf;
 		cf:SetPoint("CENTER", UIParent, "CENTER", 0, 0);
