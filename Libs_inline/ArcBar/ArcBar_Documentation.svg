@@ -14,11 +14,11 @@
    height="1500"
    id="svg2"
    version="1.1"
-   inkscape:version="0.48.0 r9654"
+   inkscape:version="0.91 r13725"
    sodipodi:docname="ArcBar_Documentation.svg"
-   inkscape:export-filename="D:\Games\World of Warcraft\Interface\AddOns\THUD\Helpers\ArcBar_Documentation.png"
-   inkscape:export-xdpi="149.96721"
-   inkscape:export-ydpi="149.96721">
+   inkscape:export-filename="ArcBar_Documentation.png"
+   inkscape:export-xdpi="199.97987"
+   inkscape:export-ydpi="199.97987">
   <defs
      id="defs4">
     <linearGradient
@@ -208,18 +208,18 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.62162861"
-     inkscape:cx="568.21963"
-     inkscape:cy="671.71646"
+     inkscape:cx="327.72233"
+     inkscape:cy="800.41067"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
      inkscape:showpageshadow="false"
      showguides="true"
      inkscape:guide-bbox="true"
-     inkscape:window-width="1378"
-     inkscape:window-height="878"
-     inkscape:window-x="-32000"
-     inkscape:window-y="-32000"
+     inkscape:window-width="1858"
+     inkscape:window-height="1057"
+     inkscape:window-x="1912"
+     inkscape:window-y="-8"
      inkscape:window-maximized="1" />
   <metadata
      id="metadata7">
@@ -229,7 +229,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -295,7 +295,7 @@
        sodipodi:cy="475.93362"
        sodipodi:rx="235"
        sodipodi:ry="235"
-       d="m 417.85715,240.93362 c 129.78692,1e-5 235,105.21309 235,235 l -235,0 z"
+       d="m 417.85715,240.93362 a 235,235 0 0 1 235,235 l -235,0 z"
        sodipodi:start="4.712389"
        sodipodi:end="6.2831853"
        transform="matrix(0.70710678,0.70710678,-0.70710678,0.70710678,488.97517,-281.83586)" />
@@ -313,7 +313,7 @@
        transform="matrix(0.70710678,0.70710678,-0.70710678,0.70710678,488.97517,-281.83586)"
        sodipodi:end="5.4977871"
        sodipodi:start="4.712389"
-       d="m 417.85715,329.50505 c 38.83527,0 76.07995,15.42725 103.54063,42.88793"
+       d="m 417.85715,329.50505 a 146.42857,146.42857 0 0 1 103.54063,42.88793"
        sodipodi:ry="146.42857"
        sodipodi:rx="146.42857"
        sodipodi:cy="475.93362"
@@ -343,7 +343,7 @@
        sodipodi:cy="475.93362"
        sodipodi:rx="122.85715"
        sodipodi:ry="122.85715"
-       d="m 417.85715,353.07648 c 67.85213,0 122.85714,55.00502 122.85714,122.85714"
+       d="M 417.85715,353.07648 A 122.85715,122.85715 0 0 1 540.71429,475.93362"
        sodipodi:start="4.712389"
        sodipodi:end="6.2831853"
        transform="matrix(0.70710678,0.70710678,-0.70710678,0.70710678,488.97517,-281.83586)" />
