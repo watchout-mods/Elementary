@@ -5,9 +5,20 @@ LibStub("AceAddon-3.0"):NewAddon(Addon, MAJOR,
 local this, FontStringBuffer = {}, {};
 local ElementaryFont, AlphaUpdateEvents;
 
+local DefaultConfig, Config = {
+	profile = {
+		ALPHA_COMBAT  = 0.7,
+		ALPHA_TARGET  = 0.7,
+		ALPHA_CASTING = 0.5,
+		ALPHA_POWER   = 0.3,
+		ALPHA_IDLE    = 0,
+		show_details  = true,
+	},
+}, {};
+
 function Addon:OnInitialize()
 	-- load config from acedb-savedvariable
-	local Config = LibStub("AceDB-3.0"):New(MAJOR.."_Config", DefaultConfig, true);
+	Config = LibStub("AceDB-3.0"):New(MAJOR.."Options", DefaultConfig, true);
 	-- load options from savedvariables
 	ElementaryOptions = setmetatable(ElementaryOptions or {}, {__index=DefaultOptions});
 
@@ -31,8 +42,10 @@ function Addon:OnEnable()
 		cf:SetPoint("CENTER", UIParent, "CENTER", 0, 0);
 		cf:SetHeight(350);
 		cf:SetWidth(512);
-		cf:RegisterEvent("UNIT_DISPLAYPOWER");
-		cf:RegisterEvent("UNIT_COMBOPOINTS");
+		--cf:RegisterEvent("UNIT_COMBOPOINTS");
+		for k,v in pairs(AlphaUpdateEvents) do
+			cf:RegisterEvent(k);
+		end
 		cf:SetAlpha(.7);
 		cf:SetScript("OnEvent", function(self, e, ...)
 			Addon:OnEvent(e, ...);
@@ -62,10 +75,29 @@ function Addon:OnEnable()
 	-- hook character panel display
 	hooksecurefunc("ToggleCharacter", self.OnCharPanelToggle);
 	-- create health watcher
+
+	self:Update()
+end
+
+function Addon:GetConfig()
+	return Config;
 end
 
 function Addon:GetOption(option)
-	return ElementaryOptions[option];
+	return Config.profile[option];
+end
+
+function Addon:SetOption(option, value)
+	Config.profile[option] = value;
+
+	self:Update()
+end
+
+---
+-- Causes an update of the HUD display
+function Addon:Update()
+	-- Re-calc alpha values
+	self:OnEvent("ELEMENTARY_LOAD");
 end
 
 -- Hook that is run when toggling the character panel.
@@ -91,19 +123,24 @@ function Addon:OnCharPanelToggle()
 end
 
 do -- alpha calculation for HUD
+	-- TODO: Update to only re-calculate required values. E.g. only re-calc "d"
+	--       on UNIT_HEALTH, etc.
+	--       However, performance-impact is extremely low even when doing full
+	--       Calculation on each event.
 	local a, b, c, d, f = 0, 0, 0, 0, 0;
 	function Addon:OnEvent(e, unit)
 		unit = unit or "player";
 		if AlphaUpdateEvents[e] and (unit == "player" or unit == "target") then
-			a = ((UnitCastingInfo(unit) or UnitChannelInfo(unit)) and self.C_CASTING_ALPHA) or 0;
+			local cfg = Config.profile;
+			a = ((UnitCastingInfo(unit) or UnitChannelInfo(unit)) and cfg.ALPHA_CASTING) or 0;
 			if unit == "player" then
-				b = ((InCombatLockdown()) and self.C_COMBAT_ALPHA) or 0;
-				c = (((UnitPowerMax(unit)-UnitPower(unit)) > 0) and UnitPower(unit) ~= 0 and self.C_POWER_ALPHA) or 0;
-				d = (((UnitHealthMax(unit)-UnitHealth(unit)) > 0) and self.C_POWER_ALPHA) or 0;
-				f = (UnitName("target") and self.C_TARGET_ALPHA) or 0;
+				b = ((InCombatLockdown()) and cfg.ALPHA_COMBAT) or 0;
+				c = (((UnitPowerMax(unit)-UnitPower(unit)) > 0) and UnitPower(unit) ~= 0 and cfg.ALPHA_POWER) or 0;
+				d = (((UnitHealthMax(unit)-UnitHealth(unit)) > 0) and cfg.ALPHA_POWER) or 0;
+				f = (UnitName("target") and cfg.ALPHA_TARGET) or 0;
 			end
 			
-			a = max(a, b, c, d, f, self.C_IDLE_ALPHA);
+			a = max(a, b, c, d, f, cfg.ALPHA_IDLE);
 			if a <= 0 then
 				self.Container:Hide();
 			else
@@ -177,18 +214,13 @@ function Addon:GetPowerColor(power)
 	return PowerColors[power or UnitPowerType("player")] or PowerColors[-1];
 end
 
-Addon.C_COMBAT_ALPHA = 0.7;
-Addon.C_TARGET_ALPHA = 0.7;
-Addon.C_CASTING_ALPHA = 0.5;
-Addon.C_POWER_ALPHA = 0.3;
-Addon.C_IDLE_ALPHA = 0;
-
 AlphaUpdateEvents = { -- this is local
 	PLAYER_REGEN_ENABLED = true,         PLAYER_REGEN_DISABLED = true,
 	PLAYER_TARGET_CHANGED = true,        UNIT_SPELLCAST_START = true,
 	UNIT_SPELLCAST_CHANNEL_START = true, UNIT_SPELLCAST_STOP = true,
-	UNIT_SPELLCAST_CHANNEL_STOP = true,  UNIT_MANA = true,   UNIT_HEALTH = true,
-	GEARBOX_LOAD = true, -- not an actual game event, used only in the first call
+	UNIT_SPELLCAST_CHANNEL_STOP = true,  UNIT_POWER = true, UNIT_HEALTH = true,
+	UNIT_DISPLAYPOWER = true,
+	ELEMENTARY_LOAD = true, -- not an actual game event, used only in the first call
 }
 
 
