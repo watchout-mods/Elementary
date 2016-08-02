@@ -209,6 +209,8 @@ function Addon:GetPowerColor(power)
 		PowerColors[1] = self:CreateColorBlender({.6,0,.0,1},{.6,0,.0,1});   -- RAGE
 		PowerColors[2] = self:CreateColorBlender({.6,0,.0,1},{.6,0,.0,1});   -- FOCUS
 		PowerColors[3] = self:CreateColorBlender({.8,.8,.0,1},{.8,.8,.0,1}); -- ENERGY
+
+		PowerColors[8] = self:CreateColorBlender({.1,.2,.5,1},{.3,.52,.9,1});-- LUNARPOWER
 	end
 	
 	return PowerColors[power or UnitPowerType("player")] or PowerColors[-1];
