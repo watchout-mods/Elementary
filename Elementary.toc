@@ -1,7 +1,8 @@
 ## Interface: 70000
 ## Title: Elementary
 ## Version: 1
-## Notes: Elementary Overlay UI |cFFAAAAAAby watchout@curse.com|r
+## Notes: Elementary Overlay Display
+## Author: watchout@curse.com
 ## SavedVariables: ElementaryOptions
 ## OptionalDeps: Ace3
 ## LoadManagers: AddonLoader, LoadIT
