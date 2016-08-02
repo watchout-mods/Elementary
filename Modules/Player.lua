@@ -89,7 +89,7 @@ function Module:CreateRightBar(w, h, ox, oy, r, t, scale)
 	bar.CastUnit = "player";
 	bar.Unit = "player";
 	bar:SetParent(Addon.Container);
-	bar:SetColor(self:CreateColorBlender({.6,0,.4,1},{0,.5,.8,1}));
+	bar:SetColor(Addon:GetPowerColor());
 	bar:SetBorderColor(self:CreateColorBlender("WHITE","WHITE"));
 	bar:SetValue(1);
 	bar:SetBorderValue(0);
