@@ -39,16 +39,17 @@ end
 
 local HealthEvents = {
 	UNIT_HEALTH_FREQUENT = true,
-	PLAYER_ENTERED_WORLD = true,
+	PLAYER_ENTERING_WORLD = true,
 };
 local PowerEvents = {
 	UNIT_DISPLAYPOWER = true,
-	PLAYER_ENTERED_WORLD = true,
+	PLAYER_ENTERING_WORLD = true,
 };
 local CastEvents = {
 	UNIT_SPELLCAST_START = true,
 	UNIT_SPELLCAST_DELAYED = true,
 	PLAYER_TARGET_CHANGED = true,
+	PLAYER_ENTERING_WORLD = true,
 };
 local ChannelEvents = {
 	--CURRENT_SPELL_CAST_CHANGED = true,
@@ -57,12 +58,14 @@ local ChannelEvents = {
 	UNIT_SPELLCAST_CHANNEL_START = true,
 	UNIT_SPELLCAST_CHANNEL_UPDATE = true,
 	PLAYER_TARGET_CHANGED = true,
+	PLAYER_ENTERING_WORLD = true,
 };
 local StopEvents = {
 	UNIT_SPELLCAST_STOP = true,
 	UNIT_SPELLCAST_FAILED = true,
 	UNIT_SPELLCAST_CHANNEL_STOP = true,
 	PLAYER_TARGET_CHANGED = true,
+	PLAYER_ENTERING_WORLD = true,
 	--UNIT_SPELLCAST_INTERRUPTED = true,
 };
 
