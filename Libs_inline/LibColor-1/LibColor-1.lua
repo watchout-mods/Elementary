@@ -502,6 +502,24 @@ function Lib.HSVtoRGB(h, s, v, a)
 	return r, g, b, a;
 end
 
+---
+-- TODO
+-- Converts an RGB color value to LAB. Conversion formula
+-- adapted from http://en.wikipedia.org/wiki/HSV_color_space. And ported from
+-- http://axonflux.com/handy-rgb-to-hsl-and-rgb-to-hsv-color-model-c
+--
+-- This function was not tested yet!
+--
+-- @param   h  Number    The hue
+-- @param   s  Number    The saturation
+-- @param   v  Number    The value
+-- @return  l, a, b, A   The LAB representation + Alpha
+--
+function Lib.RGBtoLAB(r, g, b, A)
+	local l, a, b = 0, 0, 0;
+
+	return r, g, b, A;
+end
 
 
 
