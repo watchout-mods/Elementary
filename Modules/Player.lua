@@ -76,14 +76,12 @@ function Module:CreateRightBar(w, h, ox, oy, r, t, scale)
 	f = tpath.."MainBar";
 	tx.BAR = ArcBar:CreateTexture(f, "ARTWORK", w, h, ox, oy, r, t, 56, -28, nil);
 	
-	f = tpath.."MainBar";
 	tx.BARBG = ArcBar:CreateTexture(f, "BACKGROUND", w, h, ox, oy, r, t, 56, -28, nil);
 	tx.BARBG:SetVertexColor(self:GetColor("BLACK", .4));
 	
 	f = tpath.."MainBarBorder";
 	tx.BORDER = ArcBar:CreateTexture(f, "ARTWORK", w, h, ox, oy, r, t, 56, -28, nil);
 	
-	f = tpath.."MainBarBorder";
 	tx.BORDERBG = ArcBar:CreateTexture(f, "BACKGROUND", w, h, ox, oy, r, t, 56, -28, nil);
 	tx.BORDERBG:SetVertexColor(self:GetColor("BLACK", .4));
 	
@@ -200,14 +198,12 @@ function Module:CreateLeftBar(w, h, ox, oy, r, t, scale)
 	f = tpath.."MainBar";
 	tx.BAR = ArcBar:CreateTexture(f, "ARTWORK", w, h, ox, oy, r, t, 56, -28, true);
 
-	f = tpath.."MainBar";
 	tx.BARBG = ArcBar:CreateTexture(f, "BACKGROUND", w, h, ox, oy, r, t, 56, -28, true);
 	tx.BARBG:SetVertexColor(self:GetColor("BLACK", .4));
 	
 	f = tpath.."MainBarBorder";
 	tx.BORDER = ArcBar:CreateTexture(f, "ARTWORK", w, h, ox, oy, r, t, 56, -28, true);
 	
-	f = tpath.."MainBarBorder";
 	tx.BORDERBG = ArcBar:CreateTexture(f, "BACKGROUND", w, h, ox, oy, r, t, 56, -28, true);
 	tx.BORDERBG:SetVertexColor(self:GetColor("BLACK", .4));
 	
