@@ -204,7 +204,7 @@ local PowerColors = nil;
 function Addon:GetPowerColor(power)
 	if not PowerColors then
 		PowerColors = {}
-		PowerColors[-1] = self:CreateColorBlender({.8,.8,.8,1},{1,1,1,1});   -- PLACEHOLDER
+		PowerColors[-1]= self:CreateColorBlender({.8,.8,.8,1},{1,1,1,1});    -- PLACEHOLDER
 		PowerColors[0] = self:CreateColorBlender({.6,0,.4,1},{0,.5,.8,1});   -- MANA
 		PowerColors[1] = self:CreateColorBlender({.6,0,.0,1},{.6,0,.0,1});   -- RAGE
 		PowerColors[2] = self:CreateColorBlender({.6,0,.0,1},{.6,0,.0,1});   -- FOCUS
