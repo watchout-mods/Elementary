@@ -502,23 +502,6 @@ function Lib.HSVtoRGB(h, s, v, a)
 	return r, g, b, a;
 end
 
-
-
-
-local PowerColors = nil;
-function Lib:GetPowerColor(power)
-	if not PowerColors then
-		PowerColors = {}
-		PowerColors[-1] = createColorBlender(self,{.8,.8,.8,1},{1,1,1,1});   -- PLACEHOLDER
-		PowerColors[0] = createColorBlender(self,{.6,0,.4,1},{0,.5,.8,1});   -- MANA
-		PowerColors[1] = createColorBlender(self,{.6,0,.0,1},{.6,0,.0,1});   -- RAGE
-		PowerColors[2] = createColorBlender(self,{.6,0,.0,1},{.6,0,.0,1});   -- FOCUS
-		PowerColors[3] = createColorBlender(self,{.8,.8,.0,1},{.8,.8,.0,1}); -- ENERGY
-	end
-	
-	return PowerColors[power or UnitPowerType("player")] or PowerColors[-1];
-end
-
 -- assign the functions to variables local-to-file for better performance
 getColor = Lib.getColor;
 blendColor = Lib.blendColor;
@@ -544,7 +527,6 @@ do -- Embedding
 		"GetColor", "BlendColor", "CreateColorBlender", "ModifyLuminosity",
 		"IsColor", "IsColorTable", "IsBlizColorTable", "IsColorList", "IsColorName",
 		"GetColorForText",
-		--"GetPowerColor",
 		"Colors", -- contains color constants
 	};
 
