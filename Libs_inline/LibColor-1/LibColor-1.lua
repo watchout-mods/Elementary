@@ -331,7 +331,7 @@ end
 -- @param value Number<0..1> Where 0 means black and 1 means white.
 -- @param ... any value that can be passed to :GetColor(...)
 -- @return r, g, b, a values
-function Lib:ModifyLuminosity(value, ...)
+function Lib:ModifyLuminosity_old(value, ...)
 	if type(value) ~= "number" then
 		argerr("ModifyLuminosity", " argument 1 (value) must be a number from 0 to 1. But is: "..tostring(pos));
 	end
@@ -343,6 +343,59 @@ function Lib:ModifyLuminosity(value, ...)
 	else
 		return blendColor(self, {getColor("BLACK", a)}, {r,g,b,a}, lum/(lum-value));
 	end
+end
+
+---
+-- Function to modify the luminosity of a color using RGB-HSL conversion.
+-- 
+-- NYT
+--
+-- @param value Number<0..1> Where 0 means black and 1 means white.
+-- @param ... any value that can be passed to :GetColor(...)
+-- @return r, g, b, a values
+function Lib:GetLuminosity(value, ...)
+	if type(value) ~= "number" then
+		argerr("GetLuminosity", " argument 1 (value) must be a number from 0 to 1. But is: "..tostring(pos));
+	end
+	local r, g, b, a = getColor(self, ...);
+	local hi, lo = max(r, g, b), min(r, g, b);
+
+	return (hi + lo) / 2;
+end
+
+---
+-- Function to modify the luminosity of a color using RGB-HSL conversion.
+-- 
+-- NYT
+--
+-- @param factor Number<0 .. inf.> a factor that is applied to the luminosity
+--           value. The result is bounded by 0 .. 1.
+-- @param ... any value that can be passed to :GetColor(...)
+-- @return r, g, b, a values
+function Lib:ModifyLuminosity(factor, ...)
+	if type(factor) ~= "number" then
+		argerr("ModifyLuminosity", " argument 1 (factor) must be a number from 0 to 1. But is: "..tostring(pos));
+	elseif factor < 0 then
+		argerr("ModifyLuminosity", " argument 1 (factor) must be a number from 0 to 1. But is: "..tostring(pos));
+	end
+	local h,s,l,a = self.RGBtoHSL(getColor(self, ...));
+	return self.HSLtoRGB(h, s, max(1, l * factor), a);
+end
+
+---
+-- Function to set the luminosity of a color using RGB-HSL conversion.
+-- 
+-- NYT
+--
+-- @param value Number<0..1> Where 0 means black and 1 means full hue.
+-- @param ... any value that can be passed to :GetColor(...)
+-- @return r, g, b, a values
+function Lib:SetLuminosity(value, ...)
+	if type(value) ~= "number" then
+		argerr("ModifyLuminosity", " argument 1 (value) must be a number from 0 to 1. But is: "..tostring(pos));
+	end
+	local h,s,l,a = self.RGBtoHSL(getColor(self, ...));
+	return self.HSLtoRGB(h, s, value, a);
 end
 
 ---
