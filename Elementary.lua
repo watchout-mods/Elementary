@@ -200,20 +200,25 @@ function Addon:FreeFontString(fontstring)
 	end
 end
 
-local PowerColors = nil;
-function Addon:GetPowerColor(power)
-	if not PowerColors then
-		PowerColors = {}
-		PowerColors[-1]= self:CreateColorBlender({.8,.8,.8,1},{1,1,1,1});    -- PLACEHOLDER
-		PowerColors[0] = self:CreateColorBlender({.6,0,.4,1},{0,.5,.8,1});   -- MANA
-		PowerColors[1] = self:CreateColorBlender({.6,0,.0,1},{.6,0,.0,1});   -- RAGE
-		PowerColors[2] = self:CreateColorBlender({.6,0,.0,1},{.6,0,.0,1});   -- FOCUS
-		PowerColors[3] = self:CreateColorBlender({.8,.8,.0,1},{.8,.8,.0,1}); -- ENERGY
+do local C = nil;
+	function Addon:GetPowerColor(power)
+		if not C then
+		local c, LC = self.Colors, LibStub("LibColor-1");
+		c.POWER_FOCUS_DIM = {LC:ModifyLuminosity(.8, c.POWER_FOCUS)}
+		C = {};
+		C[-1]= self:CreateColorBlender({.8,.8,.8,1},{1,1,1,1});    -- PLACEHOLDER
+		C[0] = self:CreateColorBlender({.6,0,.4,1},{0,.5,.8,1});   -- MANA
+		C[1] = self:CreateColorBlender({.6,0,.0,1},{.6,0,.0,1});   -- RAGE
+		C[2] = self:CreateColorBlender(c.POWER_FOCUS_DIM,c.POWER_FOCUS_DIM); -- FOCUS
+		C[3] = self:CreateColorBlender({.8,.8,.0,1},{.8,.8,.0,1}); -- ENERGY
+		--C[4] = self:CreateColorBlender(c.POWER_CHI,c.POWER_CHI); -- CHI
+		C[6] = self:CreateColorBlender(c.POWER_RUNIC_POWER,c.POWER_RUNIC_POWER); -- RUNIC_POWER
 
-		PowerColors[8] = self:CreateColorBlender({.1,.2,.5,1},{.3,.52,.9,1});-- LUNARPOWER
-	end
+		C[8] = self:CreateColorBlender({.1,.2,.5,1},{.3,.52,.9,1});-- LUNARPOWER
+		end
 	
-	return PowerColors[power or UnitPowerType("player")] or PowerColors[-1];
+		return C[power or UnitPowerType("player")] or C[-1];
+	end
 end
 
 AlphaUpdateEvents = { -- this is local
