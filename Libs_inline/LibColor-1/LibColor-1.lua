@@ -63,9 +63,9 @@ local ColorStrings = {
 }
 ColorStrings.GRAY = ColorStrings.GREY;
 ColorStrings.POWER_ = ColorStrings.POWER_UNKNOWN;
--- mix in colors from PowerBarColor
-do
-	for k,v in pairs(PowerBarColor) do
+
+do -- mix in colors from PowerBarColor
+	for k,v in pairs(PowerBarColor or {}) do
 		if type(k) == "string" and v.r then
 			ColorStrings["POWER_"..k] = { v.r, v.g, v.b, 1 };
 		end
@@ -75,11 +75,13 @@ do
 	-- Make mana color a bit easier on the eye
 	ColorStrings.POWER_MANA = {.1, .2, 1, 1};
 end
--- mix in colors from RAID_CLASS_COLORS
-for k,v in pairs(RAID_CLASS_COLORS) do
-	local tbl = {v[r], v[g], v[b], v[a] or 1};
-	ColorStrings["CLASS_"..tostring(k)] = tbl;
+do -- mix in colors from RAID_CLASS_COLORS
+	for k,v in pairs(RAID_CLASS_COLORS) do
+		local tbl = {v[r], v[g], v[b], v[a] or 1};
+		ColorStrings["CLASS_"..tostring(k)] = tbl;
+	end
 end
+
 -- mix color constants into the Lib
 for k,v in pairs(ColorStrings) do
 	Lib[k] = v;
