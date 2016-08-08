@@ -2,7 +2,7 @@
 ## Title: Elementary
 ## Version: 1
 ## Notes: Elementary Overlay Display
-## Author: watchout@curse.com
+## Author: watchout [on curseforge.com]
 ## SavedVariables: ElementaryOptions
 ## OptionalDeps: Ace3
 ## LoadManagers: AddonLoader, LoadIT
