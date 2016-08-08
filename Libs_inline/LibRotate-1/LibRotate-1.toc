@@ -2,5 +2,6 @@
 ## Title: LibRotate-1
 ## Version: 2
 ## Notes: Library for Texture rotation
+## Author: watchout [on curseforge.com]
 
 LibRotate-1.lua
