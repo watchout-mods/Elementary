@@ -1,6 +1,6 @@
 -- Put here the path to the "TestSuite" folder. Relative to this file, or
 -- absolute. Prefer relative though.
-PathToSuite = "TestSuite/"
+PathToSuite = "WoWUnit/"
 
 -- Put here includes you need. Most likely this will be the code you want to test
 -- they will be loaded before the tests but after WoWUnit and LibStub
