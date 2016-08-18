@@ -184,6 +184,32 @@ function Module:CreateRightBar(w, h, ox, oy, r, t, scale)
 		end
 		unit = unit or bar.CastUnit;
 	end);
+	bar.Frame:HookScript("OnShow", function(self, ...)
+		local unit = bar.CastUnit;
+		local name, _, _, _, startt, endt, _, castid, interruptible = UnitCastingInfo(unit);
+		if name then
+			local casttime = (endt-startt)/1000;
+			local curtime = GetTime()-startt/1000;
+			bar:AnimateBorder(casttime, curtime, CastTimeUpdate);
+			casttext:SetText(name);
+			casttimemaxtext:SetText(casttime);
+			return
+		end
+		local name, _, _, _, startt, endt, _, castid, interruptible = UnitChannelInfo(unit);
+		if name then
+			local casttime = (endt-startt)/1000;
+			local curtime = GetTime()-startt/1000;
+			bar:AnimateBorderInverse(casttime, curtime, CastTimeUpdate);
+			casttext:SetText(name);
+			casttimemaxtext:SetText(casttime);
+			return
+		end
+		-- ~ ELSE
+		bar:StopBorderAnimation();
+		casttext:SetText("");
+		casttimemaxtext:SetText("");
+		casttimetext:SetText("");
+	end);
 
 	_G.ABT = bar;
 	self.RIGHT = bar;
@@ -311,6 +337,32 @@ function Module:CreateLeftBar(w, h, ox, oy, r, t, scale)
 			end
 		end
 		unit = unit or bar.Unit;
+	end);
+	bar.Frame:HookScript("OnShow", function(self, ...)
+		local unit = bar.CastUnit;
+		local name, _, _, _, startt, endt, _, castid, interruptible = UnitCastingInfo(unit);
+		if name then
+			local casttime = (endt-startt)/1000;
+			local curtime = GetTime()-startt/1000;
+			bar:AnimateBorder(casttime, curtime, CastTimeUpdate);
+			casttext:SetText(name);
+			casttimemaxtext:SetText(casttime);
+			return
+		end
+		local name, _, _, _, startt, endt, _, castid, interruptible = UnitChannelInfo(unit);
+		if name then
+			local casttime = (endt-startt)/1000;
+			local curtime = GetTime()-startt/1000;
+			bar:AnimateBorderInverse(casttime, curtime, CastTimeUpdate);
+			casttext:SetText(name);
+			casttimemaxtext:SetText(casttime);
+			return
+		end
+		-- ~ ELSE
+		bar:StopBorderAnimation();
+		casttext:SetText("");
+		casttimemaxtext:SetText("");
+		casttimetext:SetText("");
 	end);
 
 	self.LEFT = bar;
