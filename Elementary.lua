@@ -97,7 +97,7 @@ end
 -- Causes an update of the HUD display
 function Addon:Update()
 	-- Re-calc alpha values
-	self:OnEvent("ELEMENTARY_LOAD");
+	self:OnEvent((next(AlphaUpdateEvents)));
 end
 
 -- Hook that is run when toggling the character panel.
@@ -227,9 +227,9 @@ AlphaUpdateEvents = { -- this is local
 	PLAYER_REGEN_ENABLED = true,         PLAYER_REGEN_DISABLED = true,
 	PLAYER_TARGET_CHANGED = true,        UNIT_SPELLCAST_START = true,
 	UNIT_SPELLCAST_CHANNEL_START = true, UNIT_SPELLCAST_STOP = true,
-	UNIT_SPELLCAST_CHANNEL_STOP = true,  UNIT_POWER = true, UNIT_HEALTH = true,
+	UNIT_SPELLCAST_CHANNEL_STOP = true,  UNIT_HEALTH = true,
 	UNIT_DISPLAYPOWER = true,
-	ELEMENTARY_LOAD = true, -- not an actual game event, used only in the first call
+	-- UNIT_POWER = true, 
 }
 
 
