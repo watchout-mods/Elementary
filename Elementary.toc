@@ -1,6 +1,6 @@
-## Interface: 70000
+## Interface: 90002
 ## Title: Elementary
-## Version: 1
+## Version: 2
 ## Notes: Elementary Overlay Display
 ## Author: watchout [on curseforge.com]
 ## SavedVariables: ElementaryOptions

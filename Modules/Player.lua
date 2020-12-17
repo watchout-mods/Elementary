@@ -140,7 +140,7 @@ function Module:CreateRightBar(w, h, ox, oy, r, t, scale)
 			--print(MAJOR, unit, ...);
 			if CastEvents[event] then
 				local sname, _, ecastid = ...;
-				local name, _, _, _, startt, endt, _, castid, interruptible = UnitCastingInfo(unit);
+				local name, _, _, startt, endt, _, castid, noninterruptible = UnitCastingInfo(unit);
 				--print(MAJOR, "Castinfo:", UnitCastingInfo(unit));
 				if name then
 					local casttime = (endt-startt)/1000;
@@ -153,7 +153,7 @@ function Module:CreateRightBar(w, h, ox, oy, r, t, scale)
 			end
 			if ChannelEvents[event] then
 				local sname, _, ecastid = ...;
-				local name, _, _, _, startt, endt, _, castid, interruptible = UnitChannelInfo(unit);
+				local name, _, _, startt, endt, _, castid, noninterruptible = UnitChannelInfo(unit);
 				--print(MAJOR, "Channelinfo:", UnitChannelInfo(unit));
 				if name then
 					local casttime = (endt-startt)/1000;
@@ -186,7 +186,7 @@ function Module:CreateRightBar(w, h, ox, oy, r, t, scale)
 	end);
 	bar.Frame:HookScript("OnShow", function(self, ...)
 		local unit = bar.CastUnit;
-		local name, _, _, _, startt, endt, _, castid, interruptible = UnitCastingInfo(unit);
+		local name, _, _, startt, endt, _, castid, noninterruptible = UnitCastingInfo(unit);
 		if name then
 			local casttime = (endt-startt)/1000;
 			local curtime = GetTime()-startt/1000;
@@ -195,7 +195,7 @@ function Module:CreateRightBar(w, h, ox, oy, r, t, scale)
 			casttimemaxtext:SetText(casttime);
 			return
 		end
-		local name, _, _, _, startt, endt, _, castid, interruptible = UnitChannelInfo(unit);
+		local name, _, _, startt, endt, _, castid, noninterruptible = UnitChannelInfo(unit);
 		if name then
 			local casttime = (endt-startt)/1000;
 			local curtime = GetTime()-startt/1000;
@@ -218,8 +218,8 @@ end
 function Module:CreateLeftBar(w, h, ox, oy, r, t, scale)
 	local f, bar, tx = nil, nil, {};
 	
-	local Color_Interruptible = self:CreateColorBlender("WHITE", "RED");
-	local Color_Noninterruptible = self:CreateColorBlender("GREY80", "GREY80");
+	local Color_Interruptible = self:CreateColorBlender("RED", "LIGHTRED");
+	local Color_Noninterruptible = self:CreateColorBlender("GREY90", "GREY90");
 
 	f = tpath.."MainBar";
 	tx.BAR = ArcBar:CreateTexture(f, "ARTWORK", w, h, ox, oy, r, t, 56, -28, true);
@@ -291,7 +291,7 @@ function Module:CreateLeftBar(w, h, ox, oy, r, t, scale)
 			local t = GetTime()*1000;
 			if CastEvents[event] then
 				local sname, _, ecastid = ...;
-				local name, _, _, _, startt, endt, _, castid, interruptible = UnitCastingInfo(unit);
+				local name, _, _, startt, endt, _, castid, noninterruptible = UnitCastingInfo(unit);
 				--print(MAJOR, "Castinfo:", UnitCastingInfo(unit));
 				if name then
 					local casttime = (endt-startt)/1000;
@@ -300,16 +300,16 @@ function Module:CreateLeftBar(w, h, ox, oy, r, t, scale)
 					bar:AnimateBorder(casttime, curtime, CastTimeUpdate);
 					casttext:SetText(name);
 					casttimemaxtext:SetText(casttime);
-					if interruptible then
-						bar:SetBorderColor(Color_Interruptible);
-					else
+					if noninterruptible then
 						bar:SetBorderColor(Color_Noninterruptible);
+					else
+						bar:SetBorderColor(Color_Interruptible);
 					end
 				end
 			end
 			if ChannelEvents[event] then
 				local sname, _, ecastid = ...;
-				local name, _, _, _, startt, endt, _, castid, interruptible = UnitChannelInfo(unit);
+				local name, _, _, startt, endt, _, castid, noninterruptible = UnitChannelInfo(unit);
 				--print(MAJOR, "Channelinfo:", UnitChannelInfo(unit));
 				if name then
 					local casttime = (endt-startt)/1000;
@@ -318,10 +318,10 @@ function Module:CreateLeftBar(w, h, ox, oy, r, t, scale)
 					bar:AnimateBorderInverse(casttime, curtime, CastTimeUpdate);
 					casttext:SetText(name);
 					casttimemaxtext:SetText(casttime);
-					if interruptible then
-						bar:SetBorderColor(Color_Interruptible);
-					else
+					if noninterruptible then
 						bar:SetBorderColor(Color_Noninterruptible);
+					else
+						bar:SetBorderColor(Color_Interruptible);
 					end
 				end
 			end
@@ -340,7 +340,7 @@ function Module:CreateLeftBar(w, h, ox, oy, r, t, scale)
 	end);
 	bar.Frame:HookScript("OnShow", function(self, ...)
 		local unit = bar.CastUnit;
-		local name, _, _, _, startt, endt, _, castid, interruptible = UnitCastingInfo(unit);
+		local name, _, _, startt, endt, _, castid, noninterruptible = UnitCastingInfo(unit);
 		if name then
 			local casttime = (endt-startt)/1000;
 			local curtime = GetTime()-startt/1000;
@@ -349,7 +349,7 @@ function Module:CreateLeftBar(w, h, ox, oy, r, t, scale)
 			casttimemaxtext:SetText(casttime);
 			return
 		end
-		local name, _, _, _, startt, endt, _, castid, interruptible = UnitChannelInfo(unit);
+		local name, _, _, startt, endt, _, castid, noninterruptible = UnitChannelInfo(unit);
 		if name then
 			local casttime = (endt-startt)/1000;
 			local curtime = GetTime()-startt/1000;
