@@ -374,7 +374,7 @@ function Lib:Create(interval, target)
 		-- -------------------------------- --
 		-- we don't need to update fps/ups on every cycle; lets throttle this
 		if LimitManageFPS < UpdatesPerManageFPS then
-			LimitManageFPS = LimitManageFPS+1;
+			LimitManageFPS = LimitManageFPS + 1;
 			return;
 		end
 		LimitManageFPS = 0;

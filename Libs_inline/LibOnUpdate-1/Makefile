@@ -1,7 +1,7 @@
 .PHONY: test
 
 all:
-	@echo "Usage: make {doc|clean}"
+	@echo "Usage: make {docs|clean}"
 
 doc:
 	luadoc -d docs *.lua

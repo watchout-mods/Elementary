@@ -7,8 +7,8 @@ local Lib, oldminor = LibStub:NewLibrary(MAJOR, MINOR);
 local LibRotate = LibStub("LibRotate-1");
 local LibColor = LibStub("LibColor-1");
 
-local cos = cos;
-local sin = sin;
+local cos, sin = cos, sin;
+local HALFPI = math.pi;
 
 -- DEBUG
 function CC(i)
@@ -282,7 +282,8 @@ local function CreateBorderAnimation(bar, frame, border, angle, ccw)
 	---
 	-- @param T total animation time in seconds, if the animation ran from 0 to
 	--        max.
-	-- @param t time in seconds where the "is now". Optional.
+	-- @param t time in seconds where the animation "is now". Optional, use nil
+	--        for default
 	-- @param func is a callback
 	function bar:AnimateBorder(T, t, func)
 		-- Gedankenexperiment:
