@@ -1,0 +1,3 @@
+/.target/
+/Libs/*
+!/Libs/embed.xml
