@@ -42,6 +42,7 @@ local HealthEvents = {
 	PLAYER_ENTERING_WORLD = true,
 };
 local PowerEvents = {
+	UNIT_AURA = true,
 	UNIT_DISPLAYPOWER = true,
 	PLAYER_ENTERING_WORLD = true,
 };
