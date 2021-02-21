@@ -591,6 +591,46 @@ function Lib:Create(input_textures, origin_x, origin_y, angle, scale, ccw, dbg)
 	end
 
 	---
+	-- Adds a Region positioned at a certain progress location in the progress
+	-- bar.
+	-- 
+	-- @param value    a numerical value from 0 to 1 representing the position
+	--                 of the region on the bar
+	-- @param offset   a radial offset starting with value 0 at the inner edge
+	--                 of the bar and 1 is at the outer edge
+	-- @param region   the region to add. This must be a table value and
+	--                 support the region interface.
+	-- @param point    point of the child region where it is to be attached
+	-- @param ox       x offset
+	-- @param oy       y offset
+	-- @param inner    specifies if inner or outer tip is to be used. NYI
+	-- @param reparent if set to true, sets the parent frame to the correct
+	--                 container frame.
+	function bar:AddProgressRegion(value, offset, region, point, pox, poy, reparent)
+		if not region.SetPoint or type(region.SetPoint) ~= "function" then
+			return error("Argument 1 must be a region or support the interface");
+		end
+		local _, _, _, _, _, _, _, _, th = textures.BAR:GetCalculationValues();
+		local scale = container:GetScale();
+		local offset_v = (offset or 0.5) * th;
+		local x, y;
+
+		if reparent then
+			region:SetParent(container);
+		end
+		
+		if region:GetParent() ~= container then
+			x, y = GetTipCoords(self, inner, value, offset_v / scale);
+			x = x * container:GetScale();
+			y = y * container:GetScale();
+		else
+			x, y = GetTipCoords(self, inner, value, offset_v);
+		end
+
+		region:SetPoint(point, container, "CENTER", x, y);
+	end
+
+	---
 	-- Adds a Region that is to be positioned at the border of the Bar. In
 	-- contrast to AddTipRegion, this will remain static relative to the bar
 	-- source
