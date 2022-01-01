@@ -1,3 +1,4 @@
 /.target/
 /Libs/*
 !/Libs/embed.xml
+/Docs
