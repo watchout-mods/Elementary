@@ -7,7 +7,6 @@
  -->
 
 <Script  file="LibRotate-1\LibRotate-1.lua" />
-<Script  file="LibColor-1\LibColor-1.lua" />
 <Script  file="ArcBar\ArcBar.lua" />
 
 <Script  file="LibOnUpdate-1\LibOnUpdate-1.lua" />

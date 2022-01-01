@@ -15,7 +15,7 @@ local ArcBar = LibStub("ArcBar-1");
 local LibRotate = LibStub("LibRotate-1");
 
 local Module = Addon:NewModule(MODULE,
-	"LibColor-1", "LibOnUpdate-1"
+	"LibColor-2", "LibOnUpdate-1"
 ) or error(MAJOR..": Can not create module");
 
 -- localized globals
@@ -78,20 +78,20 @@ function Module:CreateRightBar(w, h, ox, oy, r, t, scale)
 	tx.BAR = ArcBar:CreateTexture(f, "ARTWORK", w, h, ox, oy, r, t, 56, -28, nil);
 	
 	tx.BARBG = ArcBar:CreateTexture(f, "BACKGROUND", w, h, ox, oy, r, t, 56, -28, nil);
-	tx.BARBG:SetVertexColor(self:GetColor("BLACK", .4));
+	tx.BARBG:SetVertexColor(self.GetColor("BLACK", .4));
 	
 	f = tpath.."MainBarBorder";
 	tx.BORDER = ArcBar:CreateTexture(f, "ARTWORK", w, h, ox, oy, r, t, 56, -28, nil);
 	
 	tx.BORDERBG = ArcBar:CreateTexture(f, "BACKGROUND", w, h, ox, oy, r, t, 56, -28, nil);
-	tx.BORDERBG:SetVertexColor(self:GetColor("BLACK", .4));
+	tx.BORDERBG:SetVertexColor(self.GetColor("BLACK", .4));
 	
 	bar = ArcBar:Create(tx, 0, 0, -28, scale);
 	bar.CastUnit = "player";
 	bar.Unit = "player";
 	bar:SetParent(Addon.Container);
 	bar:SetColor(Addon:GetPowerColor());
-	bar:SetBorderColor(self:CreateColorBlender("WHITE","WHITE"));
+	bar:SetBorderColor(self.CreateColorBlender("WHITE","WHITE"));
 	bar:SetValue(1);
 	bar:SetBorderValue(0);
 	bar:SetAlpha(1);
@@ -219,27 +219,27 @@ end
 function Module:CreateLeftBar(w, h, ox, oy, r, t, scale)
 	local f, bar, tx = nil, nil, {};
 	
-	local Color_Interruptible = self:CreateColorBlender("RED", "LIGHTRED");
-	local Color_Noninterruptible = self:CreateColorBlender("GREY90", "GREY90");
+	local Color_Interruptible = self.CreateColorBlender("RED", "LIGHTRED");
+	local Color_Noninterruptible = self.CreateColorBlender("GREY90", "GREY90");
 
 	f = tpath.."MainBar";
 	tx.BAR = ArcBar:CreateTexture(f, "ARTWORK", w, h, ox, oy, r, t, 56, -28, true);
 
 	tx.BARBG = ArcBar:CreateTexture(f, "BACKGROUND", w, h, ox, oy, r, t, 56, -28, true);
-	tx.BARBG:SetVertexColor(self:GetColor("BLACK", .4));
+	tx.BARBG:SetVertexColor(self.GetColor("BLACK", .4));
 	
 	f = tpath.."MainBarBorder";
 	tx.BORDER = ArcBar:CreateTexture(f, "ARTWORK", w, h, ox, oy, r, t, 56, -28, true);
 	
 	tx.BORDERBG = ArcBar:CreateTexture(f, "BACKGROUND", w, h, ox, oy, r, t, 56, -28, true);
-	tx.BORDERBG:SetVertexColor(self:GetColor("BLACK", .4));
+	tx.BORDERBG:SetVertexColor(self.GetColor("BLACK", .4));
 	
 	bar = ArcBar:Create(tx, 0, 0, -28, scale, true);
 	bar.CastUnit = "target";
 	bar.Unit = "player";
 	bar:SetParent(Addon.Container);
-	bar:SetColor(self:CreateColorBlender({1,0,0,1},{0,.6,0,1}));
-	bar:SetBorderColor(self:CreateColorBlender("GRAY","WHITE"));
+	bar:SetColor(self.CreateColorBlender({1,0,0,1},{0,.6,0,1}));
+	bar:SetBorderColor(self.CreateColorBlender("GRAY","WHITE"));
 	bar:SetValue(1);
 	bar:SetBorderValue(0);
 	bar:SetAlpha(1);

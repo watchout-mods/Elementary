@@ -1,6 +1,6 @@
 local MAJOR, Addon = ...;
 LibStub("AceAddon-3.0"):NewAddon(Addon, MAJOR,
-	"LibColor-1"
+	"LibColor-2"
 );
 local this, FontStringBuffer = {}, {};
 local ElementaryFont, AlphaUpdateEvents;
@@ -203,20 +203,19 @@ end
 do local C = nil;
 	function Addon:GetPowerColor(power)
 		if not C then
-		local c, LC = self.Colors, LibStub("LibColor-1");
-		c.POWER_FOCUS_DIM = {LC:ModifyLuminosity(.8, c.POWER_FOCUS)}
-		C = {};
-		C[-1]=self:CreateColorBlender({.8,.8,.8,1},{ 1, 1, 1,1});   -- DUMMY
-		C[ 0]=self:CreateColorBlender({.6, 0,.4,1},{ 0,.5,.8,1});   -- MANA
-		C[ 1]=self:CreateColorBlender({.6, 0,.0,1},{.6, 0,.0,1});   -- RAGE
-		C[ 2]=self:CreateColorBlender(c.POWER_FOCUS,c.POWER_FOCUS); -- FOCUS
-		C[ 3]=self:CreateColorBlender({.8,.8,.0,1},{.8,.8,.0,1});   -- ENERGY
-		--C[4] =self:CreateColorBlender(c.POWER_CHI,c.POWER_CHI);   -- CHI
-		C[ 6]=self:CreateColorBlender(c.POWER_RUNIC_POWER,c.POWER_RUNIC_POWER); -- RUNIC_POWER
-		C[ 8]=self:CreateColorBlender({.1,.2,.5,1},{.3,.52,.9,1});  -- LUNARPOWER
-		C[17]=self:CreateColorBlender(c.POWER_FURY,c.POWER_FURY);   -- DH-Fury
-		C[18]=self:CreateColorBlender(c.POWER_PAIN,c.POWER_PAIN);   -- DH-Pain
-
+			local c = self.Colors;
+			c.POWER_FOCUS_DIM = {self.ModifyLuminosity(.8, c.POWER_FOCUS)}
+			C = {};
+			C[-1]=self.CreateColorBlender({.8,.8,.8,1},{ 1, 1, 1,1});   -- DUMMY
+			C[ 0]=self.CreateColorBlender({.6, 0,.4,1},{ 0,.5,.8,1});   -- MANA
+			C[ 1]=self.CreateColorBlender({.6, 0,.0,1},{.6, 0,.0,1});   -- RAGE
+			C[ 2]=self.CreateColorBlender(c.POWER_FOCUS,c.POWER_FOCUS); -- FOCUS
+			C[ 3]=self.CreateColorBlender({.8,.8,.0,1},{.8,.8,.0,1});   -- ENERGY
+			--C[4] =self:CreateColorBlender(c.POWER_CHI,c.POWER_CHI);   -- CHI
+			C[ 6]=self.CreateColorBlender(c.POWER_RUNIC_POWER,c.POWER_RUNIC_POWER); -- RUNIC_POWER
+			C[ 8]=self.CreateColorBlender({.1,.2,.5,1},{.3,.52,.9,1});  -- LUNARPOWER
+			C[17]=self.CreateColorBlender(c.POWER_FURY,c.POWER_FURY);   -- DH-Fury
+			C[18]=self.CreateColorBlender(c.POWER_PAIN,c.POWER_PAIN);   -- DH-Pain
 		end
 	
 		return C[power or UnitPowerType("player")] or C[-1];

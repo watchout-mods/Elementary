@@ -5,7 +5,7 @@ local MAJOR, MINOR = "ArcBar-1", 1;
 local Lib, oldminor = LibStub:NewLibrary(MAJOR, MINOR);
 --if not Lib then return; end
 local LibRotate = LibStub("LibRotate-1");
-local LibColor = LibStub("LibColor-1");
+local LibColor = LibStub("LibColor-2");
 
 local cos, sin = cos, sin;
 local HALFPI = math.pi;
@@ -474,8 +474,8 @@ function Lib:Create(input_textures, origin_x, origin_y, angle, scale, ccw, dbg)
 	
 	-- Closure-Variables used in the functions below
 	local BarValue, BorderValue;
-	local BarColor = LibColor:createColorBlender("WHITE", "WHITE");
-	local BorderColor = LibColor:createColorBlender("WHITE", "WHITE");
+	local BarColor = LibColor.CreateColorBlender("WHITE", "WHITE");
+	local BorderColor = LibColor.CreateColorBlender("WHITE", "WHITE");
 	
 	function bar:SetOrigin(relframe, relpoint, ox, oy)
 		container:ClearAllPoints();
