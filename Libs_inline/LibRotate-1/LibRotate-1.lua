@@ -153,30 +153,30 @@ function Prototype:getRotationValues(delta)
 		   |        |
 		P3 o--------o P4
 	]]
-	local P1X, P1Y, P2X, P2Y, P3X, P3Y, P4X, P4Y
+	local P1X, P1Y, P2X, P2Y, P3X, P3Y, P4X, P4Y;
 	
-	if self.Rectangle.OriginOffsetY+self.Rectangle.Height < 0 then
-		P1X = (ox + (cos(    delta-alpha) * R1 )) / tw;
-		P2X = (ox + (cos(    delta-beta)  * R2 )) / tw;
-		P1Y = (oy - (sin(180-delta+alpha) * R1Y)) / th;
-		P2Y = (oy - (sin(180-delta+beta)  * R2Y)) / th;
+	if self.Rectangle.OriginOffsetY + self.Rectangle.Height < 0 then
+		P1X = (ox + (cos(      delta - alpha) * R1 )) / tw;
+		P2X = (ox + (cos(      delta - beta)  * R2 )) / tw;
+		P1Y = (oy - (sin(180 - delta + alpha) * R1Y)) / th;
+		P2Y = (oy - (sin(180 - delta + beta)  * R2Y)) / th;
 	else
-		P1X = (ox + (cos(delta+alpha) * R1 )) / tw;
-		P2X = (ox + (cos(delta+beta)  * R2 )) / tw;
-		P1Y = (oy - (sin(delta+alpha) * R1Y)) / th;
-		P2Y = (oy - (sin(delta+beta)  * R2Y)) / th;
+		P1X = (ox + (cos(delta + alpha) * R1 )) / tw;
+		P2X = (ox + (cos(delta + beta)  * R2 )) / tw;
+		P1Y = (oy - (sin(delta + alpha) * R1Y)) / th;
+		P2Y = (oy - (sin(delta + beta)  * R2Y)) / th;
 	end
 
 	if self.Rectangle.OriginOffsetY < 0 then
-		P3X = (ox + (cos(    delta-gamma  ) * R3 )) / tw;
-		P4X = (ox + (cos(    delta-epsilon) * R4 )) / tw;
-		P3Y = (oy - (sin(180-delta+gamma  ) * R3Y)) / th;
-		P4Y = (oy - (sin(180-delta+epsilon) * R4Y)) / th;
+		P3X = (ox + (cos(      delta - gamma  ) * R3 )) / tw;
+		P4X = (ox + (cos(      delta - epsilon) * R4 )) / tw;
+		P3Y = (oy - (sin(180 - delta + gamma  ) * R3Y)) / th;
+		P4Y = (oy - (sin(180 - delta + epsilon) * R4Y)) / th;
 	else
-		P3X = (ox + (cos(delta+gamma  ) * R3)) / tw;
-		P4X = (ox + (cos(delta+epsilon) * R4)) / tw;
-		P3Y = (oy - (sin(delta+gamma  ) * R3Y)) / th;
-		P4Y = (oy - (sin(delta+epsilon) * R4Y)) / th;
+		P3X = (ox + (cos(delta + gamma  ) * R3)) / tw;
+		P4X = (ox + (cos(delta + epsilon) * R4)) / tw;
+		P3Y = (oy - (sin(delta + gamma  ) * R3Y)) / th;
+		P4Y = (oy - (sin(delta + epsilon) * R4Y)) / th;
 	end
 	--[[
 	print(R1, R2, R3, R4);

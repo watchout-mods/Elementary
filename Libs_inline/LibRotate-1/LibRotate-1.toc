@@ -4,4 +4,8 @@
 ## Notes: Library for Texture rotation
 ## Author: watchout [on curseforge.com]
 
+# Library
 LibRotate-1.lua
+
+# Testing Addon
+Test-1\LibRotate-1-Test.lua
