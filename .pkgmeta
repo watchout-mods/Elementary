@@ -36,6 +36,6 @@ externals:
         tag: latest
 
 ignore:
-	- Textures_Originals
-	- Libs/setexternals
-	- Libs/externals.txt
+    - Textures_Originals
+    - Libs/setexternals
+    - Libs/externals.txt
