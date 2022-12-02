@@ -54,7 +54,7 @@ function Addon:OnEnable()
 		-- Debug texture to show where HUD is
 		-- local T = cf:CreateTexture();
 		-- T:SetAllPoints(cf);
-		-- T:SetColorTexture(1, 0, 0, .0);
+		-- T:SetColorTexture(1, 0, 0, 1.0);
 	end
 	do
 		--[[
@@ -157,7 +157,7 @@ end
 -- For convenience, if you pass it a string, it will also concatenate that to
 -- the end
 function Addon:GetTexturePath(file)
-	return "Interface\\AddOns\\"..MAJOR.."\\Textures\\" .. (file or "");
+	return "Interface\\AddOns\\" .. MAJOR .. "\\Textures\\" .. (file or "");
 end
 
 ---
