@@ -31,6 +31,9 @@ do -- Create english locale
 	L.CFG_ALPHA_POWER_DESC   = "HUD alpha value (visibility) when your current power is not full and not exactly zero";
 	L.CFG_ALPHA_CASTING_DESC = "HUD alpha value (visibility) when casting";
 	L.CFG_ALPHA_IDLE_DESC    = "The GUI will not go below this alpha value.";
+
+	L.CFG_SCALE = "Scale";
+	L.CFG_SCALE_DESC = "Scale";
 end
 
 local L = LibStub("AceLocale-3.0"):GetLocale(MAJOR, true);
@@ -72,10 +75,29 @@ Options = {
 			desc = L.CFG_PLAYER_DESC,
 			order = 2, type = "group",
 			args = {
+				scale = {
+					name = L.CFG_SCALE,
+					desc = L.CFG_SCALE_DESC,
+					order = 1, type = "group", inline = true,
+					args = {
+						scale_global = {
+							name = L.CFG_SCALE,
+							desc = L.CFG_SCALE_DESC,
+							order =  1, type = "range",
+							min = 0.1, max = 3, bigStep = .05, isPercent = true,
+							set = function(info,val)
+								addon:SetOption("SCALE", val);
+							end,
+							get = function()
+								return addon:GetOption("SCALE");
+							end,
+						},
+					},
+				},
 				alpha = {
 					name = L.CFG_ALPHA,
 					desc = L.CFG_ALPHA_DESC,
-					order = 1, type = "group", inline = true,
+					order = 2, type = "group", inline = true,
 					args = {
 						alpha_combat = {
 							name = L.CFG_ALPHA_COMBAT,
@@ -142,7 +164,7 @@ Options = {
 				health = {
 					name = L.CFG_HEALTH,
 					desc = L.CFG_HEALTH_DESC,
-					order = 1, type = "group", inline = true,
+					order = 3, type = "group", inline = true,
 					args = {
 						text_health = {
 							name = L.CFG_HEALTH_STRING,
@@ -171,7 +193,7 @@ Options = {
 				power = {
 					name = L.CFG_POWER,
 					desc = L.CFG_POWER_DESC,
-					order = 1, type = "group", inline = true,
+					order = 4, type = "group", inline = true,
 					args = {
 						text_power = {
 							name = L.CFG_POWER_STRING,

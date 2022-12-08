@@ -11,9 +11,6 @@ local cos, sin = cos, sin;
 local HALFPI = math.pi;
 
 -- DEBUG
-function CC(i)
-	return {T=i:GetTop(), R=i:GetRight(), B=i:GetBottom(), L=i:GetLeft()};
-end
 local function nprint(...)
 	if true then return; end
 	
@@ -31,23 +28,23 @@ local function nprint(...)
 	end
 	print(unpack(t));
 end
-function GetUIParentCursorPosition()
-	local s = UIParent:GetEffectiveScale();
-	local x,y = GetCursorPosition();
-	return x/s, y/s;
-end
 -- /DEBUG
 
-local CreateTexture;
+local ProduceTexture;
 do
 	local TexFactory = nil;
-	CreateTexture = function()
+	ProduceTexture = function()
 		if not TexFactory then
-			TexFactory = CreateFrame("frame");
-			TexFactory:Hide();
+			TexFactory = CreateFrame("frame", MAJOR .. "-Texture-Factory", UIParent);
+			TexFactory:SetPoint("CENTER", 0, 0)
+			TexFactory:SetSize(10, 10);
+			TexFactory:EnableMouse(false);
+			TexFactory:Show();
 		end
 		
-		return TexFactory:CreateTexture();
+		local tex = TexFactory:CreateTexture();
+		tex:SetScale(1);
+		return tex;
 	end
 end
 
@@ -55,48 +52,47 @@ end
 -- opening: Opening angle in degrees (gamma)
 -- rot: rotational offset angle in degrees (alpha)
 -- th: thickness of the bar
-function Lib:CreateTexture(file, layer, w, h, o_x, o_y, r, th, opening, rot, mirror)
+function Lib:CreateArcTexture(file, layer, w, h, o_x, o_y, r, th, opening, rot, mirror)
 	-- sanity checks
 	if w <= 0 or h <= 0 then
 		error("width and height must be greater than zero.");
 	end
 	-- more ... TODO
 
+	local mask_file = file;
+
 	local rt = LibRotate:new();
-	local tex = CreateTexture();
+	rt:mirror(false); -- mirror not supported because mask does not support SetTexCoord.
+	rt:setTexture(file, w, h);
+	rt:setOrigin(o_x, o_y);
+	rt:setRectangle(w, h, -o_x, -o_y);
+
+	local tex = ProduceTexture();
 	tex:SetTexture(file);
 	tex:SetDrawLayer(layer);
-	
-	-- calculate intermediate values
-	local s, a, b;
-	if opening > 90 then
-		s = (r+th) * cos(opening);
-		a = r+th - s;
-		b = r+th;
-	else
-		s = r * cos(opening);
-		a = r+th - s;
-		b = sin(opening) * (r + th);
-	end
-	
-	
-	rt:mirror(mirror);
-	rt:setTexture("", w, h);
-	rt:setOrigin(o_x, o_y);
-	rt:setRectangle(a, b, s, 0);
+	tex:SetSize(w, h);
 
-	tex:SetWidth(a);
-	tex:SetHeight(b);
-	
-	function tex:SetRotation(frac)
+	local maskTexture = tex:GetParent():CreateMaskTexture();
+	maskTexture:SetTexture(mask_file);
+	maskTexture:SetAllPoints(tex);
+	tex:AddMaskTexture(maskTexture);    
+
+	-- local tex2 = CreateTexture();
+	-- tex2:SetTexture(file);
+	-- tex2:SetTexCoord(rt:getRotationValues(rot + opening * 0.5));
+	-- tex2:SetDrawLayer(layer);
+	-- tex2:SetAllPoints(tex);
+
+	function tex:SetArcRotation(frac)
 		--print("Setting Rotation to", rot + opening*frac);
-		tex:SetTexCoord(rt:getRotationValues(rot + opening*frac));
+		tex:SetTexCoord(rt:getRotationValues(opening * frac));
 	end
+
 	function tex:GetRotater()
 		return rt;
 	end
 	
-	function tex:GetOriginPoint()
+	function tex:_GetRotationOrigin()
 		if mirror then
 			return "CENTER", tex, "BOTTOMRIGHT", s, 0;
 		else
@@ -105,29 +101,29 @@ function Lib:CreateTexture(file, layer, w, h, o_x, o_y, r, th, opening, rot, mir
 	end
 	
 	function tex:SetOrigin(relpoint, pos_x, pos_y)
-		pos_x = pos_x or 0;
-		pos_y = pos_y or 0;
 		tex:ClearAllPoints();
 		if mirror then
-			tex:SetPoint("BOTTOMRIGHT", tex:GetParent(), relpoint, pos_x-s, pos_y);
+			tex:SetPoint("RIGHT", tex:GetParent(), relpoint, -pos_x, pos_y);
 		else
-			tex:SetPoint("BOTTOMLEFT", tex:GetParent(), relpoint, s+pos_x, pos_y);
+			tex:SetPoint("LEFT", tex:GetParent(), relpoint, pos_x, pos_y);
 		end
 	end
 	
 	function tex:GetCalculationValues()
-		return s, a, b, r, w, h, o_x, o_y, th, opening, rot;
+		return r, w, h, o_x, o_y, th, opening, rot;
 	end
 	
-	tex.values = { S = s, A = a, B = b, R = r, W = w, H = h, OX = o_x, OY = o_y,
+	tex.values = { R = r, W = w, H = h, OX = o_x, OY = o_y,
 		TH = th, OPENING = opening, ROT = rot }
-	tex:SetRotation(0);
+	tex:SetArcRotation(0);
 	
+	nprint(MAJOR, "Calculation values: [r, w, h, o_x, o_y, th, opening, rot]", tex:GetCalculationValues());
+	nprint(MAJOR, "Effective scale:", tex:GetEffectiveScale());
 	return tex;
 end
 
-local function CreateAnimation(bar, frame, duration, startangle, workangle, ccw)
-	--print(MAJOR, "CreateRotateInAnimation", startangle, workangle);
+local function CreateFrameAnimation(bar, frame, duration, startangle, workangle, ccw)
+	print(MAJOR, "CreateRotateInAnimation", startangle, workangle);
 	local ag = frame:CreateAnimationGroup();
 	if ccw then
 		startangle = -startangle;
@@ -135,38 +131,9 @@ local function CreateAnimation(bar, frame, duration, startangle, workangle, ccw)
 		workangle = -workangle;
 	end
 
-	local rot0 = ag:CreateAnimation("Rotation");
-	rot0:SetDegrees(startangle);
-	rot0:SetDuration(0);
-	rot0:SetEndDelay(duration);
-	rot0:SetOrigin(bar:GetOriginPoint(true));
-	
-	-- set alpha no matter what it was before...
-	local fade0 = ag:CreateAnimation("Alpha");
-	fade0:SetToAlpha(0);
-	fade0:SetFromAlpha(0);
-	fade0:SetDuration(0);
-	fade0:SetEndDelay(duration);
-
-	-- Fade-In
-	local fadein = ag:CreateAnimation("Alpha");
-	fadein:SetToAlpha(1);
-	fadein:SetFromAlpha(0);
-	fadein:SetDuration(duration);
-
-	-- Rotate-In
-	local rot = ag:CreateAnimation("Rotation");
-	rot:SetDegrees(workangle);
-	rot:SetDuration(duration);
-	rot:SetOrigin(bar:GetOriginPoint(true));
-	rot:SetScript("OnFinished", function(self, force)
-		--print(time(), "rot finished");
-		ag:Pause();
-		bar:SetAlpha(1);
+	ag:HookScript("OnFinished", function(self, force, ...)
+		print(time(), "ag finished", force, ...);
 	end);
-
-	--ag:SetLooping("REPEAT");
-	ag:Play();
 	
 	return ag;
 end
@@ -185,9 +152,7 @@ local function CreateBarAnimation(bar)
 	--        max.
 	-- @param t time in seconds where the animation "is now". Optional.
 	function bar:AnimateBar(T, t, func)
-		-- Gedankenexperiment:
-		-- T = 10, t = 2
-		-- daraus folgt:
+		-- Given T = 10 and t = 2
 		-- offset_s = 0.2
 		-- offset_i = 0.8
 		-- duration: 8
@@ -286,12 +251,6 @@ local function CreateBorderAnimation(bar, frame, border, angle, ccw)
 	--        for default
 	-- @param func is a callback
 	function bar:AnimateBorder(T, t, func)
-		-- Gedankenexperiment:
-		-- T = 10, t = 2
-		-- daraus folgt:
-		-- offset_s = 0.2
-		-- offset_i = 0.8
-		-- duration: 8
 		ag:Stop();
 		
 		offset_s = (t or 0)/T;
@@ -370,7 +329,7 @@ local textures_allowed = {
 	BORDERBG = "BORDERBG",
 	BG = "BG"
 };
-function Lib:Create(input_textures, origin_x, origin_y, angle, scale, ccw, dbg)
+function Lib:CreateArcBar(input_textures, origin_x, origin_y, angle, scale, ccw, dbg)
 	local bar = {};
 	local container = CreateFrame("frame");
 	container:SetWidth(100);
@@ -380,38 +339,40 @@ function Lib:Create(input_textures, origin_x, origin_y, angle, scale, ccw, dbg)
 	container:SetScale(scale);
 	container:SetMovable(true);
 
-	if false then
+	if dbg then
 		local t = container:CreateTexture();
 		t:SetAllPoints(container);
 		t:SetColorTexture(0, 1, 0, .5);
 	end
 	
-	local frame = CreateFrame("frame");
+	local frame = CreateFrame("frame", container);
 	local textures = {};
 	local ORIGINPOINT = "BOTTOMLEFT"; -- replace fixed origin point with variable
 	local RelativeOriginX, RelativeOriginY = 0,0;
 	if ccw then -- TODO
 	end
 	
-	frame:SetParent(container);
-	frame:SetPoint("BOTTOMLEFT", container, "CENTER");
+	frame:SetPoint("CENTER", container, "CENTER");
 	frame:SetWidth(100);
 	frame:SetHeight(100);
-	frame:SetMovable(true);
+	frame:SetParent(container);
+	frame:Show();
+	frame:EnableMouse(false);
+
 	if dbg then
 		local t = frame:CreateTexture();
 		t:SetAllPoints(container);
 		t:SetColorTexture(0, 0, 1, .5);
 	end
 	
-	local TipPointOuter = CreateTexture();
+	local TipPointOuter = ProduceTexture();
 	TipPointOuter:SetColorTexture(1, 0, 0, 0);
 	TipPointOuter:SetDrawLayer("BORDER");
 	TipPointOuter:SetWidth(10);
 	TipPointOuter:SetHeight(10);
-	TipPointOuter:SetParent(container);
+	TipPointOuter:SetParent(frame);
 	--[[
-	local TipPointInner = CreateTexture();
+	local TipPointInner = ProduceTexture();
 	TipPointInner:SetColorTexture(1, 1, 0);
 	TipPointInner:SetDrawLayer("BORDER");
 	TipPointInner:SetWidth(10);
@@ -424,52 +385,12 @@ function Lib:Create(input_textures, origin_x, origin_y, angle, scale, ccw, dbg)
 			if input_textures[k] then
 				textures[k] = input_textures[k];
 				textures[k]:SetParent(frame);
-				textures[k]:SetOrigin("BOTTOMLEFT");
+				textures[k]:SetOrigin("CENTER", origin_x, origin_y);
 			end
 		end
 		for k,v in ipairs(input_textures) do
 			tinsert(textures, v);
 		end
-	end
-	-- Find the area the textures are covering and move the frame there
-	do
-		local l, r, t, b, s;
-		local _,v = next(textures);
-		if v then
-			s = 1; --v:GetEffectiveScale();
-			t,r,b,l = v:GetTop()*s,v:GetRight()*s,v:GetBottom()*s,v:GetLeft()*s;
-		end
-		
-		for k,v in pairs(textures) do
-			nprint(MAJOR, "TRBL", t, r, b, l);
-			s = 1; --1/v:GetEffectiveScale();
-			l = min(l, v:GetLeft()*s);
-			r = max(r, v:GetRight()*s);
-			b = min(b, v:GetBottom()*s);
-			t = max(t, v:GetTop()*s);
-		end
-		nprint(MAJOR, "TRBL fin", t, r, b, l);
-
-		s = 1; --1/frame:GetEffectiveScale();
-		local oldorigin_x = frame:GetLeft()*s;
-		local oldorigin_y = frame:GetBottom()*s;
-		nprint(MAJOR, "OLD Bottom:", frame:GetBottom(), "Left:", frame:GetLeft());
-		frame:ClearAllPoints();
-		frame:SetWidth(r-l);
-		frame:SetHeight(t-b);
-		frame:SetPoint("BOTTOMLEFT", container, "CENTER", l-oldorigin_x, b-oldorigin_y);
-		nprint(MAJOR, "NEW Bottom:", frame:GetBottom(), "Left:", frame:GetLeft());
-
-		RelativeOriginX = -(l-oldorigin_x);
-		RelativeOriginY = -(b-oldorigin_y);
-	end
-	
-	-- move the textures back to the right place relative to the new origin
-	local s;
-	for k,v in pairs(textures) do
-		-- save old origin
-		s = 1; --v:GetEffectiveScale();
-		v:SetOrigin("BOTTOMLEFT", RelativeOriginX*s, RelativeOriginY*s);
 	end
 	
 	-- Closure-Variables used in the functions below
@@ -477,7 +398,7 @@ function Lib:Create(input_textures, origin_x, origin_y, angle, scale, ccw, dbg)
 	local BarColor = LibColor.CreateColorBlender("WHITE", "WHITE");
 	local BorderColor = LibColor.CreateColorBlender("WHITE", "WHITE");
 	
-	function bar:SetOrigin(relframe, relpoint, ox, oy)
+	function bar:SetAttachmentPoint(relframe, relpoint, ox, oy)
 		container:ClearAllPoints();
 		--container:SetPoint("CENTER", relframe, relpoint, ox-RelativeOriginX, oy-RelativeOriginY);
 		container:SetPoint("CENTER", relframe, relpoint, ox, oy);
@@ -490,10 +411,10 @@ function Lib:Create(input_textures, origin_x, origin_y, angle, scale, ccw, dbg)
 	function bar:GetOriginPoint(effective)
 		if effective then
 			return "BOTTOMLEFT",
-			       RelativeOriginX*frame:GetEffectiveScale(),
-				   RelativeOriginY*frame:GetEffectiveScale();
+			       origin_x*frame:GetEffectiveScale(),
+				   origin_y*frame:GetEffectiveScale();
 		else
-			return "BOTTOMLEFT", RelativeOriginX, RelativeOriginY;
+			return "BOTTOMLEFT", origin_x, origin_y;
 		end
 	end
 	function bar:SetBorderValue(frac)
@@ -503,7 +424,7 @@ function Lib:Create(input_textures, origin_x, origin_y, angle, scale, ccw, dbg)
 			if frac*0 ~= 0 then frac = 0; end
 			if frac < 0 then frac = 0; end
 			if frac > 1 then frac = 1; end
-			textures.BORDER:SetRotation(1-frac);
+			textures.BORDER:SetArcRotation(1-frac);
 			textures.BORDER:SetVertexColor(BorderColor(frac))
 			BorderValue = frac;
 		end
@@ -519,8 +440,8 @@ function Lib:Create(input_textures, origin_x, origin_y, angle, scale, ccw, dbg)
 		value = value or BarValue;
 		
 		if textures.BAR then
-			local _, ox, oy = bar:GetOriginPoint();
-			local s,a,b,r,w,h,_,_,th,opening,rot = textures.BAR:GetCalculationValues();
+			--local _, ox, oy = bar:GetOriginPoint();
+			local r,w,h,ox,oy,th,opening,rot = textures.BAR:GetCalculationValues();
 			local x, y;
 			offset = offset or 0;
 			
@@ -534,14 +455,14 @@ function Lib:Create(input_textures, origin_x, origin_y, angle, scale, ccw, dbg)
 			--y = oy + (r+th)*sin(value*opening + rot);
 			-- relative
 			if ccw then
-				x = -(r+th+offset)*cos(- value*opening - rot);
-				y = -(r+th+offset)*sin(- value*opening - rot);
+				x = -(r+th+offset)*cos(- value*opening - rot) - ox;
+				y = -(r+th+offset)*sin(- value*opening - rot) - 0;
 			else
-				x =  (r+th+offset)*cos(value*opening + rot);
-				y =  (r+th+offset)*sin(value*opening + rot);
+				x =  (r+th+offset)*cos(value*opening + rot) + ox;
+				y =  (r+th+offset)*sin(value*opening + rot) - 0;
 			end
 			
-			return x,y
+			return x, y;
 		end
 	end
 	-- duplicate of GetTipCoords to at least have something - for now:
@@ -550,7 +471,7 @@ function Lib:Create(input_textures, origin_x, origin_y, angle, scale, ccw, dbg)
 	function bar:SetValue(frac)
 		if frac ~= BarValue and textures.BAR then
 			if frac*0 ~= 0 then frac = 0; end
-			textures.BAR:SetRotation(1-frac);
+			textures.BAR:SetArcRotation(1-frac);
 			textures.BAR:SetVertexColor(BarColor(frac))
 			BarValue = frac;
 			
@@ -664,7 +585,7 @@ function Lib:Create(input_textures, origin_x, origin_y, angle, scale, ccw, dbg)
 	
 	CreateUtilityFunctions(bar, frame, container, ccw);
 	
-	bar.Animation = CreateAnimation(bar, frame, 0.1, 90+angle, 90, ccw);
+	bar.Animation = CreateFrameAnimation(bar, frame, 0.1, 90+angle, 90, ccw);
 	--bar.CastAnimation = CreateBorderAnimation(bar, frame, textures.BORDER, angle/2, ccw);
 	if textures.BORDER then
 		bar.CastAnimation = CreateBorderAnimation(bar, frame, textures.BORDER, 0, ccw);

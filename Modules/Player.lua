@@ -72,21 +72,21 @@ local StopEvents = {
 
 
 function Module:CreateRightBar(w, h, ox, oy, r, t, scale)
-	local f, bar, tx = nil, nil, {};
+	local f, tx = nil, {};
 	
 	f = tpath.."MainBar";
-	tx.BAR = ArcBar:CreateTexture(f, "ARTWORK", w, h, ox, oy, r, t, 56, -28, nil);
+	tx.BAR = ArcBar:CreateArcTexture(f, "ARTWORK", w, h, ox, oy, r, t, 56, -28, nil);
 	
-	tx.BARBG = ArcBar:CreateTexture(f, "BACKGROUND", w, h, ox, oy, r, t, 56, -28, nil);
+	tx.BARBG = ArcBar:CreateArcTexture(f, "BACKGROUND", w, h, ox, oy, r, t, 56, -28, nil);
 	tx.BARBG:SetVertexColor(self.GetColor("BLACK", .4));
 	
 	f = tpath.."MainBarBorder";
-	tx.BORDER = ArcBar:CreateTexture(f, "ARTWORK", w, h, ox, oy, r, t, 56, -28, nil);
+	tx.BORDER = ArcBar:CreateArcTexture(f, "ARTWORK", w, h, ox, oy, r, t, 56, -28, nil);
 	
-	tx.BORDERBG = ArcBar:CreateTexture(f, "BACKGROUND", w, h, ox, oy, r, t, 56, -28, nil);
+	tx.BORDERBG = ArcBar:CreateArcTexture(f, "BACKGROUND", w, h, ox, oy, r, t, 56, -28, nil);
 	tx.BORDERBG:SetVertexColor(self.GetColor("BLACK", .4));
 	
-	bar = ArcBar:Create(tx, 0, 0, -28, scale);
+	local bar = ArcBar:CreateArcBar(tx, 0, 0, -28, scale);
 	bar.CastUnit = "player";
 	bar.Unit = "player";
 	bar:SetParent(Addon.Container);
@@ -95,7 +95,7 @@ function Module:CreateRightBar(w, h, ox, oy, r, t, scale)
 	bar:SetValue(1);
 	bar:SetBorderValue(0);
 	bar:SetAlpha(1);
-	bar:SetOrigin(UIParent, "CENTER", -180, 0);
+	bar:SetAttachmentPoint(UIParent, "CENTER", 360, 0);
 
 	-- create cast info text
 	local casttext = Addon:CreateFontString(nil, "RIGHT", 300, 30);
@@ -217,24 +217,24 @@ function Module:CreateRightBar(w, h, ox, oy, r, t, scale)
 end
 
 function Module:CreateLeftBar(w, h, ox, oy, r, t, scale)
-	local f, bar, tx = nil, nil, {};
+	local f, tx = nil, {};
 	
-	local Color_Interruptible = self.CreateColorBlender("RED", "LIGHTRED");
+	local Color_Interruptible = self.CreateColorBlender("ORANGE", "RED");
 	local Color_Noninterruptible = self.CreateColorBlender("GREY90", "GREY90");
 
-	f = tpath.."MainBar";
-	tx.BAR = ArcBar:CreateTexture(f, "ARTWORK", w, h, ox, oy, r, t, 56, -28, true);
+	f = tpath.."MainBar-Mirror";
+	tx.BAR = ArcBar:CreateArcTexture(f, "ARTWORK", w, h, ox, oy, r, t, 56, -28, true);
 
-	tx.BARBG = ArcBar:CreateTexture(f, "BACKGROUND", w, h, ox, oy, r, t, 56, -28, true);
+	tx.BARBG = ArcBar:CreateArcTexture(f, "BACKGROUND", w, h, ox, oy, r, t, 56, -28, true);
 	tx.BARBG:SetVertexColor(self.GetColor("BLACK", .4));
 	
-	f = tpath.."MainBarBorder";
-	tx.BORDER = ArcBar:CreateTexture(f, "ARTWORK", w, h, ox, oy, r, t, 56, -28, true);
+	f = tpath.."MainBarBorder-Mirror";
+	tx.BORDER = ArcBar:CreateArcTexture(f, "ARTWORK", w, h, ox, oy, r, t, 56, -28, true);
 	
-	tx.BORDERBG = ArcBar:CreateTexture(f, "BACKGROUND", w, h, ox, oy, r, t, 56, -28, true);
+	tx.BORDERBG = ArcBar:CreateArcTexture(f, "BACKGROUND", w, h, ox, oy, r, t, 56, -28, true);
 	tx.BORDERBG:SetVertexColor(self.GetColor("BLACK", .4));
 	
-	bar = ArcBar:Create(tx, 0, 0, -28, scale, true);
+	local bar = ArcBar:CreateArcBar(tx, 0, 0, -28, scale, true, true);
 	bar.CastUnit = "target";
 	bar.Unit = "player";
 	bar:SetParent(Addon.Container);
@@ -243,7 +243,7 @@ function Module:CreateLeftBar(w, h, ox, oy, r, t, scale)
 	bar:SetValue(1);
 	bar:SetBorderValue(0);
 	bar:SetAlpha(1);
-	bar:SetOrigin(UIParent, "CENTER", 180, 0);
+	bar:SetAttachmentPoint(UIParent, "CENTER", -360, 0);
 
 	-- create cast info text
 	local casttext = Addon:CreateFontString(nil, "LEFT", 300, 30);

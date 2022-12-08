@@ -1,6 +1,4 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!-- Created with Inkscape (http://www.inkscape.org/) -->
-
 <svg
    xmlns:dc="http://purl.org/dc/elements/1.1/"
    xmlns:cc="http://creativecommons.org/ns#"
@@ -14,7 +12,7 @@
    height="800"
    id="svg2"
    sodipodi:version="0.32"
-   inkscape:version="0.91 r13725"
+   inkscape:version="1.0.1 (3bc2e813f5, 2020-09-07)"
    version="1.0"
    sodipodi:docname="MainBar-Sectioned.svg"
    inkscape:output_extension="org.inkscape.output.svg.inkscape"
@@ -36,8 +34,8 @@
      inkscape:current-layer="layer3"
      showgrid="false"
      inkscape:showpageshadow="false"
-     inkscape:window-width="1858"
-     inkscape:window-height="1057"
+     inkscape:window-width="2498"
+     inkscape:window-height="1417"
      inkscape:window-x="1912"
      inkscape:window-y="-8"
      inkscape:window-maximized="1"
@@ -49,7 +47,8 @@
      inkscape:snap-bbox-edge-midpoints="true"
      inkscape:bbox-paths="false"
      inkscape:object-nodes="true"
-     inkscape:snap-page="true">
+     inkscape:snap-page="true"
+     inkscape:document-rotation="0">
     <sodipodi:guide
        position="1250,400"
        orientation="0,1"
@@ -502,7 +501,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -552,7 +551,7 @@
      id="layer2"
      inkscape:groupmode="layer">
     <circle
-       style="display:inline;opacity:0.51000001;fill:#ff0000;fill-opacity:1;stroke:none"
+       style="display:inline;opacity:0.51;fill:#ff0000;fill-opacity:1;stroke:none"
        id="path4673"
        cx="390"
        cy="400"
@@ -565,7 +564,7 @@
        r="740" />
     <path
        id="circle3446"
-       style="display:inline;opacity:0.51000001;fill:#ff0000;fill-opacity:1;stroke:none"
+       style="display:inline;opacity:0.51;fill:#ff0000;fill-opacity:1;stroke:none"
        sodipodi:type="arc"
        sodipodi:cx="390"
        sodipodi:cy="400"
@@ -573,7 +572,8 @@
        sodipodi:ry="800"
        sodipodi:start="5.7944931"
        sodipodi:end="0.48869219"
-       d="m 1096.3581,24.422738 a 800,800 0 0 1 0,751.154512 L 390,400 Z" />
+       d="m 1096.3581,24.422738 a 800,800 0 0 1 0,751.154512 L 390,400 Z"
+       sodipodi:arc-type="slice" />
     <g
        style="display:inline"
        id="g3801">
@@ -949,7 +949,7 @@
       <path
          inkscape:connector-curvature="0"
          d="m 1128.0305,-91.275166 a 800,800 0 0 1 -31.6724,66.852416 L 390,-400 Z m 26.6039,-73.492574 a 800,800 0 0 1 -23.4115,65.747147 L 390,-400 Z m 19.3054,-75.73792 a 800,800 0 0 1 -16.884,67.71794 L 390,-400 Z m 11.8225,-77.26031 a 800,800 0 0 1 -10.1953,69.04233 L 390,-400 Z m 4.2267,-78.04526 a 800,800 0 0 1 -3.4092,69.7077 L 390,-400 Z m -61.9585,-312.9136 a 800,800 0 0 0 -31.6724,-66.85242 L 390,-400 Z m 26.6039,73.49257 a 800,800 0 0 0 -23.4115,-65.74715 L 390,-400 Z m 19.3054,75.73792 a 800,800 0 0 0 -16.884,-67.71794 L 390,-400 Z m 11.8225,77.26031 a 800,800 0 0 0 -10.1953,-69.04233 L 390,-400 Z m 4.2267,78.04526 a 800,800 0 0 0 -3.4092,-69.7077 L 390,-400 Z"
-         style="display:inline;opacity:0.51000001;fill:#ff0000;fill-opacity:1;stroke:none"
+         style="display:inline;opacity:0.51;fill:#ff0000;fill-opacity:1;stroke:none"
          transform="scale(1,-1)"
          id="path3915" />
     </g>
@@ -958,7 +958,7 @@
      inkscape:groupmode="layer"
      id="layer1"
      inkscape:label="Sectioner"
-     style="display:inline" />
+     style="display:none" />
   <g
      inkscape:groupmode="layer"
      id="layer6"

@@ -31,7 +31,7 @@ function Addon:OnInitialize()
 	ElementaryFont:SetShadowOffset(0,0);
 	do
 		local p, s, f = ElementaryFont:GetFont();
-		ElementaryFont:SetFont(p, 12);
+		ElementaryFont:SetFont(p, 12, f);
 	end
 end
 
@@ -98,6 +98,8 @@ end
 function Addon:Update()
 	-- Re-calc alpha values
 	self:OnEvent((next(AlphaUpdateEvents)));
+	-- FIXME: Update scaling
+	
 end
 
 -- Hook that is run when toggling the character panel.
