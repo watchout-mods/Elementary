@@ -10,11 +10,26 @@ local MAJOR, MINOR = "LibRotate-1", 3
 local Lib, oldminor = LibStub:NewLibrary(MAJOR, MINOR)
 if not Lib then return; end
 
-local cos = cos;
-local sin = sin;
-local asin = asin;
-local acos = acos;
-local sqrt = sqrt;
+local cos, sin, asin, acos, sqrt;
+do -- if not run within WoW, these functions are missing
+	-- WoW functions work on degrees instead of radians... We prefer performance in WoW here.
+	-- TODO: Use radians in input values to get rid of this and use math lib functions instead.
+	local pi_180 = math.pi / 180.0;
+	local pi_180_inv = 180.0 / math.pi;
+	cos = cos or function(v)
+		return math.cos(pi_180 * v);
+	end;
+	sin = sin or function(v)
+		return math.sin(pi_180 * v);
+	end;
+	asin = asin or function(v)
+		return math.asin(v) * pi_180_inv;
+	end;
+	acos = acos or function(v)
+		return math.acos(v) * pi_180_inv;
+	end;
+	sqrt = math.sqrt;
+end
 
 local Prototype = {};
 
