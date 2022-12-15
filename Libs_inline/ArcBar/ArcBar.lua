@@ -62,10 +62,15 @@ function Lib:CreateArcTexture(file, layer, w, h, o_x, o_y, r, th, opening, rot, 
 	local mask_file = file;
 
 	local rt = LibRotate:new();
-	rt:mirror(false); -- mirror not supported because mask does not support SetTexCoord.
+	rt:mirror(mirror);
 	rt:setTexture(file, w, h);
-	rt:setOrigin(o_x, o_y);
-	rt:setRectangle(w, h, -o_x, -o_y);
+	if mirror then
+		rt:setOrigin(-o_x + w, o_y);
+		rt:setRectangle(-w, h, o_x, -o_y);
+	else
+		rt:setOrigin(o_x, o_y);
+		rt:setRectangle(w, h, -o_x, -o_y);
+	end
 
 	local tex = ProduceTexture();
 	tex:SetTexture(file);
@@ -83,9 +88,14 @@ function Lib:CreateArcTexture(file, layer, w, h, o_x, o_y, r, th, opening, rot, 
 	-- tex2:SetDrawLayer(layer);
 	-- tex2:SetAllPoints(tex);
 
-	function tex:SetArcRotation(frac)
-		--print("Setting Rotation to", rot + opening*frac);
-		tex:SetTexCoord(rt:getRotationValues(opening * frac));
+	if mirror then
+		function tex:SetArcRotation(frac)
+			tex:SetTexCoord(rt:getRotationValues(-opening * frac));
+		end
+	else
+		function tex:SetArcRotation(frac)
+			tex:SetTexCoord(rt:getRotationValues(opening * frac));
+		end
 	end
 
 	function tex:GetRotater()
@@ -480,6 +490,7 @@ function Lib:CreateArcBar(input_textures, origin_x, origin_y, angle, scale, ccw,
 			TipPointOuter:SetPoint("CENTER", GetTipCoords());
 		end
 	end
+
 	function bar:SetColor(color)
 		if type(color) == "function" then
 			BarColor = color;
