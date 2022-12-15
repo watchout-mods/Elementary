@@ -95,7 +95,7 @@ function Module:CreateRightBar(w, h, ox, oy, r, t, scale)
 	bar:SetValue(1);
 	bar:SetBorderValue(0);
 	bar:SetAlpha(1);
-	bar:SetAttachmentPoint(UIParent, "CENTER", 360, 0);
+	bar:SetAttachmentPoint(UIParent, "CENTER", 400, 0);
 
 	-- create cast info text
 	local casttext = Addon:CreateFontString(nil, "RIGHT", 300, 30);
@@ -234,7 +234,7 @@ function Module:CreateLeftBar(w, h, ox, oy, r, t, scale)
 	tx.BORDERBG = ArcBar:CreateArcTexture(f, "BACKGROUND", w, h, ox, oy, r, t, 56, -28, true);
 	tx.BORDERBG:SetVertexColor(self.GetColor("BLACK", .4));
 	
-	local bar = ArcBar:CreateArcBar(tx, 0, 0, -28, scale, true, true);
+	local bar = ArcBar:CreateArcBar(tx, 0, 0, -28, scale, true, nil);
 	bar.CastUnit = "target";
 	bar.Unit = "player";
 	bar:SetParent(Addon.Container);
@@ -243,7 +243,7 @@ function Module:CreateLeftBar(w, h, ox, oy, r, t, scale)
 	bar:SetValue(1);
 	bar:SetBorderValue(0);
 	bar:SetAlpha(1);
-	bar:SetAttachmentPoint(UIParent, "CENTER", -360, 0);
+	bar:SetAttachmentPoint(UIParent, "CENTER", -400, 0);
 
 	-- create cast info text
 	local casttext = Addon:CreateFontString(nil, "LEFT", 300, 30);
