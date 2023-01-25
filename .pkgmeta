@@ -39,3 +39,11 @@ ignore:
     - Textures_Originals
     - Libs/setexternals
     - Libs/externals.txt
+    - Libs_inline/ArcBar/spec
+    - Libs_inline/ArcBar/test
+    - Libs_inline/ArcBar/ArcBar_Documentation.*
+    - Libs_inline/LibRotate-1/spec
+    - Libs_inline/LibRotate-1/Test-1
+    - Libs_inline/LibRotate-1/*.toc
+    - Makefile
+    - *.sublime-project
